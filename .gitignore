@@ -28,3 +28,8 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+.vs/*
+.vs/my-first-vue-project/FileContentIndex/6deb4b5a-7165-405a-9ad8-65410b239320.vsidx
+.vs/my-first-vue-project/v17/.wsuo
+.vs/VSWorkspaceState.json
+.vs/ProjectSettings.json
