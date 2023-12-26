@@ -1,0 +1,15 @@
+<script type="module">
+    import { createApp } from 'vue/dist/vue.esm-bundler.js'
+    
+    createApp({
+        data() {
+    return {
+      message: 'Hello World!'
+    }
+  }
+    }).mount('#app')
+    </script>
+    
+    <div id="app">
+        <h1>{{message.split('').reverse().join('')}}</h1>
+    </div>
