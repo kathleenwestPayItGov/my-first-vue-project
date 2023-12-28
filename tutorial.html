@@ -41,7 +41,7 @@ createApp(
       this.newTodoItem = ''
     },
       removeTodo(todo) {
-      this.todos = this.todos.filter((t) => t !== todo)
+      this.todos = this.todos.filter(t => t.id !== todo.id)
     }
     }     
   }).mount('#app')
