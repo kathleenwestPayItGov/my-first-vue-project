@@ -12,7 +12,8 @@ createApp(
           titleClass: 'title',
           message: "Hello World",
           count: 0,
-          text: "Starting Text"
+          text: "Starting Text",
+          awesome: true
         }
       },
     methods: {
@@ -21,6 +22,9 @@ createApp(
       },
       onInput(e) {
         this.text = e.target.value;
+      },
+      toggle() {
+        this.awesome = !this.awesome;
       }
     }     
   }).mount('#app')
@@ -28,16 +32,28 @@ createApp(
 </head>
 <body>
   <div id="app">
+    <h1>Tutorial Examples</h1>
     <!-- String Interpolation Example -->
-    <h1>{{message.split('').reverse().join('')}}</h1>
+    <h2>String Interpolation Example</h2>
+    <p>{{message.split('').reverse().join('')}}</p>
     <!-- CSS Styling One-Way Binding Example -->
-    <h1 v-bind:class="titleClass">Make me red</h1>
+    <h2>CSS Styling One-Way Binding Example</h2>
+    <p v-bind:class="titleClass">Make me red</p>
     <!-- Event Handling Example -->
+    <h2>Event Handling Example</h2>
     <button v-on:click="increment">count is: {{count}}</button>
     <!-- Two-Way Binding Example -->
+    <h2>Two-Way Binding Example</h2>
     <p>
       <input v-bind:value="text" v-on:input="onInput" placeholder="Type Text Here">
-      <h2>Text: {{text}}</h2>
+      <p>Text: {{text}}</p>
+    </p>
+    <!-- Conditional Rendering Example -->
+    <h2>Conditional Rendering Example</h2>
+    <p>
+      <button @click="toggle">toggle</button>
+      <p v-if="awesome">Vue is awesome!</p>
+      <p v-else>Oh no 😢</p>
     </p>
 </div>
 
