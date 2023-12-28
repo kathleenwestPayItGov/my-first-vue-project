@@ -11,12 +11,16 @@ createApp(
     return {
           titleClass: 'title',
           message: "Hello World",
-          count: 0
+          count: 0,
+          text: "Starting Text"
         }
       },
     methods: {
       increment() {
         this.count++
+      },
+      onInput(e) {
+        this.text = e.target.value;
       }
     }     
   }).mount('#app')
@@ -24,9 +28,17 @@ createApp(
 </head>
 <body>
   <div id="app">
+    <!-- String Interpolation Example -->
     <h1>{{message.split('').reverse().join('')}}</h1>
+    <!-- CSS Styling One-Way Binding Example -->
     <h1 v-bind:class="titleClass">Make me red</h1>
+    <!-- Event Handling Example -->
     <button v-on:click="increment">count is: {{count}}</button>
+    <!-- Two-Way Binding Example -->
+    <p>
+      <input v-bind:value="text" v-on:input="onInput" placeholder="Type Text Here">
+      <h2>Text: {{text}}</h2>
+    </p>
 </div>
 
 </body>
