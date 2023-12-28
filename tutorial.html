@@ -1,15 +1,28 @@
+
+    
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="style.css">
 <script type="module">
-    import { createApp } from 'vue/dist/vue.esm-bundler.js'
-    
-    createApp({
-        data() {
-    return {
-      message: 'Hello World!'
-    }
+  import { createApp } from 'vue/dist/vue.esm-bundler.js'
+  
+  createApp({
+      data() {
+  return {
+    message: 'Hello World!',
+    titleClass: 'title'
   }
-    }).mount('#app')
-    </script>
-    
-    <div id="app">
-        <h1>{{message.split('').reverse().join('')}}</h1>
-    </div>
+}
+  }).mount('#app')
+</script>
+</head>
+<body>
+
+  <div id="app">
+    <h1>{{message.split('').reverse().join('')}}</h1>
+    <h1 v-bind:class="titleClass">Make me red</h1>
+</div>
+
+</body>
+</html>
