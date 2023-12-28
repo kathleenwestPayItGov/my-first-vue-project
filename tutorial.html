@@ -4,7 +4,10 @@
 <link rel="stylesheet" href="style.css">
 <script type="module">
 import { createApp } from 'vue/dist/vue.esm-bundler.js'
-  
+
+// unique identifier for each todo list item
+let id = 0;
+
 createApp(
   {
     data() {
@@ -13,7 +16,14 @@ createApp(
           message: "Hello World",
           count: 0,
           text: "Starting Text",
-          awesome: true
+          text2: "Starting Text2",
+          awesome: true,
+          newTodoItem: '',
+          todos: [
+            {id: id++, text: "Learn HTML"},
+            {id: id++, text: "Learn JavaScript"},
+            {id: id++, text: "Learn Vue"}
+          ]
         }
       },
     methods: {
@@ -25,7 +35,14 @@ createApp(
       },
       toggle() {
         this.awesome = !this.awesome;
-      }
+      },
+      addTodo() {
+      this.todos.push({ id: id++, text: this.newTodoItem })
+      this.newTodoItem = ''
+    },
+      removeTodo(todo) {
+      this.todos = this.todos.filter((t) => t !== todo)
+    }
     }     
   }).mount('#app')
 </script>
@@ -33,28 +50,57 @@ createApp(
 <body>
   <div id="app">
     <h1>Tutorial Examples</h1>
+
     <!-- String Interpolation Example -->
     <h2>String Interpolation Example</h2>
     <p>{{message.split('').reverse().join('')}}</p>
+
     <!-- CSS Styling One-Way Binding Example -->
     <h2>CSS Styling One-Way Binding Example</h2>
     <p v-bind:class="titleClass">Make me red</p>
+
     <!-- Event Handling Example -->
     <h2>Event Handling Example</h2>
     <button v-on:click="increment">count is: {{count}}</button>
+
     <!-- Two-Way Binding Example -->
     <h2>Two-Way Binding Example</h2>
     <p>
       <input v-bind:value="text" v-on:input="onInput" placeholder="Type Text Here">
       <p>Text: {{text}}</p>
     </p>
+
+    <!-- Another Two-Way Binding Example -->
+    <h2>Another Two-Way Binding Example</h2>
+      <p>
+        <input v-model="text2" placeholder="Type Text Here">
+        <p>Text: {{text2}}</p>
+      </p>
+
     <!-- Conditional Rendering Example -->
     <h2>Conditional Rendering Example</h2>
     <p>
-      <button @click="toggle">toggle</button>
+      <button v-on:click="toggle">toggle</button>
       <p v-if="awesome">Vue is awesome!</p>
       <p v-else>Oh no 😢</p>
     </p>
+
+    <!-- List Rendering Example -->
+    <h2>List Rendering Example</h2>
+    
+    <form @submit.prevent="addTodo">
+      <input v-model="newTodoItem" placeholder="Type Text Here">
+      <button>Add Todo Item</button>
+    </form>
+
+    <ul>
+      <li v-for="todo in todos" v-bind:key="todo.id">
+        {{todo.id}} | {{todo.text}}
+        <button v-on:click="removeTodo(todo)">X</button>
+      </li>
+    </ul>
+
+
 </div>
 
 </body>
