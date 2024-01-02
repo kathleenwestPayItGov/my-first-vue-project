@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="style.css">
+<script type="module">
+import { createApp } from 'vue'
+
+// unique identifier for each todo list item
+let id = 0;
+
+createApp(
+  {
+    mounted() {
+      this.$refs.pElementRef.textContent = 'mounted!'
+    },
+    data() {
+    return {
+          titleClass: 'title',
+          message: "Hello World",
+          count: 0,
+          text: "Starting Text",
+          text2: "Starting Text2",
+          awesome: true,
+          newTodoItem: '',
+          hideCompleted: false,
+          todos: [
+            {id: id++, text: "Learn HTML", done: true},
+            {id: id++, text: "Learn JavaScript", done: true},
+            {id: id++, text: "Learn Vue", done: false}
+          ]
+        }
+      },
+    computed: {
+      filteredTodos() {
+        return this.hideCompleted ? this.todos.filter(t => !t.done) : this.todos;
+      }
+    },
+    methods: {
+      increment() {
+        this.count++
+      },
+      onInput(e) {
+        this.text = e.target.value;
+      },
+      toggle() {
+        this.awesome = !this.awesome;
+      },
+      addTodo() {
+      this.todos.push({ id: id++, text: this.newTodoItem, done:false })
+      this.newTodoItem = ''
+    },
+      removeTodo(todo) {
+      this.todos = this.todos.filter(t => t.id !== todo.id)
+    }
+    }     
+  }).mount('#app')
+</script>
+</head>
+<body>
+  <div id="app">
+    <h1>Tutorial Examples</h1>
+
+    <!-- String Interpolation Example -->
+    <h2>String Interpolation Example</h2>
+    <p>{{message.split('').reverse().join('')}}</p>
+
+    <!-- CSS Styling One-Way Binding Example -->
+    <h2>CSS Styling One-Way Binding Example</h2>
+    <p v-bind:class="titleClass">Make me red</p>
+
+    <!-- Event Handling Example -->
+    <h2>Event Handling Example</h2>
+    <button v-on:click="increment">count is: {{count}}</button>
+
+    <!-- Two-Way Binding Example -->
+    <h2>Two-Way Binding Example</h2>
+    <p>
+      <input v-bind:value="text" v-on:input="onInput" placeholder="Type Text Here">
+      <p>Text: {{text}}</p>
+    </p>
+
+    <!-- Another Two-Way Binding Example -->
+    <h2>Another Two-Way Binding Example</h2>
+      <p>
+        <input v-model="text2" placeholder="Type Text Here">
+        <p>Text: {{text2}}</p>
+      </p>
+
+    <!-- Conditional Rendering Example -->
+    <h2>Conditional Rendering Example</h2>
+    <p>
+      <button v-on:click="toggle">toggle</button>
+      <p v-if="awesome">Vue is awesome!</p>
+      <p v-else>Oh no 😢</p>
+    </p>
+
+    <!-- List Rendering Example -->
+    <h2>List Rendering Example</h2>
+    
+    <form @submit.prevent="addTodo">
+      <input v-model="newTodoItem" placeholder="Type Text Here">
+      <button>Add Todo Item</button>
+    </form>
+
+    <ul>
+      <li v-for="todo in todos" v-bind:key="todo.id">
+        <input type="checkbox" v-model="todo.done"> |
+        <span v-bind:class="{done: todo.done}">{{todo.id}} | {{todo.text}}</span>
+        <button v-on:click="removeTodo(todo)">X</button>
+      </li>
+    </ul>
+
+        <!-- List Rendering and Computed Example -->
+        <h2>List Rendering and Computed Example</h2>
+    
+        <form @submit.prevent="addTodo">
+          <input v-model="newTodoItem" placeholder="Type Text Here">
+          <button>Add Todo Item</button>
+        </form>
+    
+        <ul>
+          <li v-for="todo in filteredTodos" v-bind:key="todo.id">
+            <input type="checkbox" v-model="todo.done"> |
+            <span v-bind:class="{done: todo.done}">{{todo.id}} | {{todo.text}}</span>
+            <button v-on:click="removeTodo(todo)">X</button>
+          </li>
+        </ul>
+        <button v-on:click="hideCompleted = !hideCompleted">
+          {{ hideCompleted ? 'Show all' : 'Hide completed' }}
+        </button>
+
+<!-- Lifecycle and Template Refs Example -->
+<h1>Lifecycle and Template References Example</h1>
+<p ref="pElementRef">hello</p>
+
+</div>
+
+</body>
+</html>
