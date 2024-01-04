@@ -12,7 +12,8 @@ let id = 0;
 createApp(
   {
     mounted() {
-      this.$refs.pElementRef.textContent = 'mounted!'
+      this.$refs.pElementRef.textContent = 'mounted!';
+      this.fetchData();
     },
     data() {
     return {
@@ -24,6 +25,8 @@ createApp(
           awesome: true,
           newTodoItem: '',
           hideCompleted: false,
+          todoId: 1,
+          todoData: null,
           todos: [
             {id: id++, text: "Learn HTML", done: true},
             {id: id++, text: "Learn JavaScript", done: true},
@@ -34,6 +37,11 @@ createApp(
     computed: {
       filteredTodos() {
         return this.hideCompleted ? this.todos.filter(t => !t.done) : this.todos;
+      }
+    },
+    watch: {
+      todoId() {
+        this.fetchData()
       }
     },
     methods: {
@@ -47,12 +55,17 @@ createApp(
         this.awesome = !this.awesome;
       },
       addTodo() {
-      this.todos.push({ id: id++, text: this.newTodoItem, done:false })
-      this.newTodoItem = ''
-    },
+        this.todos.push({ id: id++, text: this.newTodoItem, done:false })
+        this.newTodoItem = ''
+      },
       removeTodo(todo) {
-      this.todos = this.todos.filter(t => t.id !== todo.id)
-    }
+        this.todos = this.todos.filter(t => t.id !== todo.id)
+      },
+      async fetchData() {
+        this.todoData = null;
+        const res = await fetch(`https://jsonplaceholder.typicode.com/todos/${this.todoId}`);
+        this.todoData = await res.json();
+      }
     }     
   }).mount('#app')
 </script>
@@ -133,6 +146,12 @@ createApp(
 <!-- Lifecycle and Template Refs Example -->
 <h1>Lifecycle and Template References Example</h1>
 <p ref="pElementRef">hello</p>
+
+<!-- Watchers -->
+<p>Todo id: {{ todoId }}</p>
+<button @click="todoId++" :disabled="!todoData">Fetch next todo</button>
+<p v-if="!todoData">Loading...</p>
+<pre v-else>{{ todoData }}</pre>
 
 </div>
 
